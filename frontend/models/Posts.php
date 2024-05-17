@@ -28,11 +28,17 @@ class Posts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'user_id'], 'required'],
+            [['title', 'description'], 'required'],
             [['description'], 'string'],
             [['user_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
         ];
+    }
+
+    public function afterValidate()
+    {
+        parent::afterValidate();
+        $this->user_id = Yii::$app->user->id;
     }
 
     /**
